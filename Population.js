@@ -27,18 +27,26 @@ class Population {
         if (this.checkAllDead() === true) {
             this.evaluate();
             this.birds = this.makeNextGen();
+            this.bestBirdIndex = 0;
             this.generation++;
-            generationP.html('generation: ' + this.generation);
+            generationP.html('generation: ' + nfc(this.generation));
+            localStorage.setItem('flappy.bestbrain.gen.' + this.generation, JSON.stringify(this.bestBird.brain));
+            localStorage.setItem('flappy.gen', this.generation);
             resetPipes();
+            if (score > highScore) {
+                highScore = score;
+                highScoreP.html('high score: ' + nfc(highScore));
+            }
             score = 0;
         }
-        for (let bird of this.birds) {
+        this.countAlive();
+        for (const bird of this.birds) {
             bird.update();
         }
     }
 
     checkAllDead() {
-        for (let bird of this.birds) {
+        for (const bird of this.birds) {
             if (bird.isDead === false) {
                 return false;
             }
@@ -46,15 +54,24 @@ class Population {
         return true;
     }
 
+    countAlive() {
+        let alive = 0;
+        for (const bird of this.birds) {
+            if (bird.isDead === false) {
+                alive++;
+            }
+        }
+        aliveP.html('alive: ' + nfc(alive) + ' / ' + nfc(this.popSize));
+    }
+
     evaluate() {
         this.fitnessSum = 0;
         let sumFit = 0;
-        for (let bird of this.birds) {
+        for (const bird of this.birds) {
             bird.calculateFitness();
             sumFit += bird.fitness;
         }
-        for (let i = 0; i < this.birds.length; i++) {
-            const bird = this.birds[i];
+        for (const bird of this.birds) {
             bird.fitness = bird.fitness / sumFit;
             this.fitnessSum += bird.fitness;
         }
@@ -66,15 +83,11 @@ class Population {
                 this.bestBirdIndex = i;
             }
         }
-        if (score > highScore) {
-            highScore = score;
-            highScoreP.html('high score: ' + highScore);
-        }
         this.bestBird.fitness *= 1.5;
     }
 
     makeNextGen() {
-        let nextGenBirds = [];
+        const nextGenBirds = [];
         for (let i = 1; i < this.popSize; i++) {
             let babyBird = this.selectParent().clone();
             babyBird.brain.mutate();
@@ -85,7 +98,7 @@ class Population {
     }
 
     selectParent() {
-        let diceRoll = random(this.fitnessSum);
+        const diceRoll = random(this.fitnessSum);
         let sum = 0;
 
         for (let bird of this.birds) {

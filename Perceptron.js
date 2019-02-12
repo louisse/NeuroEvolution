@@ -5,7 +5,7 @@ class Perceptron {
             this.weights[i] = random(-1, 1);
         }
         this.bias = random(-1, 1);
-        this.mr = 0.2;
+        this.mr = 0.3;
         this.activateFunc = Perceptron.activateSign;
     }
 
@@ -19,7 +19,7 @@ class Perceptron {
     }
 
     copy() {
-        let copyPerceptron = new Perceptron(0);
+        const copyPerceptron = new Perceptron(0);
         for (let i = 0; i < this.weights.length; i++) {
             copyPerceptron.weights[i] = this.weights[i];
         }
@@ -50,8 +50,16 @@ class Perceptron {
     }
 
     static activateHyperbolicTangent(num) {
-        let ex = Math.exp(num);
-        let exMinus = Math.exp(-num);
+        const ex = Math.exp(num);
+        const exMinus = Math.exp(-num);
         return (ex - exMinus) / (ex + exMinus);
+    }
+
+    static fromJSON(perceptronObj) {
+        perceptronObj = typeof perceptronObj === 'string' ? JSON.parse(perceptronObj) : perceptronObj;
+        const newPerceptron = new Perceptron(0);
+        newPerceptron.weights = perceptronObj.weights;
+        newPerceptron.bias = perceptronObj.bias;
+        return newPerceptron;
     }
 }

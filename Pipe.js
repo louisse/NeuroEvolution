@@ -9,7 +9,7 @@ class Pipe {
     }
 
     randomizeY() {
-        this.y =  floor(random(this.h + 25, height - groundHeight - 25));
+        this.y = floor(random(this.h + 25, height - groundHeight - 25));
     }
 
     show() {
@@ -27,7 +27,7 @@ class Pipe {
 
     update() {
         this.x += this.speed;
-        if(this.x < -this.w) {
+        if (this.x < -this.w) {
             this.x = width;
             this.randomizeY();
         }
