@@ -31,6 +31,7 @@ class Perceptron {
         for (let i = 0; i < this.weights.length; i++) {
             if (random() < this.mr) {
                 this.weights[i] = random(-1, 1);
+                return;
             }
         }
         if (random() < this.mr) {
@@ -56,7 +57,6 @@ class Perceptron {
     }
 
     static fromJSON(perceptronObj) {
-        perceptronObj = typeof perceptronObj === 'string' ? JSON.parse(perceptronObj) : perceptronObj;
         const newPerceptron = new Perceptron(0);
         newPerceptron.weights = perceptronObj.weights;
         newPerceptron.bias = perceptronObj.bias;

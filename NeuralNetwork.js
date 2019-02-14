@@ -22,12 +22,11 @@ class NeuralNetwork {
         this.outputLayer.mutate();
     }
 
-    static fromJSON(jsonString) {
-        const neuralNetworkObj = JSON.parse(jsonString);
+    static fromJSON(NNObj) {
         const newNeuralNetwork = new NeuralNetwork(0, 0, 0);
-        newNeuralNetwork.hiddenLayer = Layer.fromJSON(neuralNetworkObj.hiddenLayer);
+        newNeuralNetwork.hiddenLayer = Layer.fromJSON(NNObj.hiddenLayer);
         newNeuralNetwork.hiddenLayer.activateFunction = Perceptron.activateHyperbolicTangent;
-        newNeuralNetwork.outputLayer = Layer.fromJSON(neuralNetworkObj.outputLayer);
+        newNeuralNetwork.outputLayer = Layer.fromJSON(NNObj.outputLayer);
         return newNeuralNetwork;
     }
 }

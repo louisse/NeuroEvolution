@@ -35,7 +35,6 @@ class Layer {
     }
 
     static fromJSON(layerObj) {
-        layerObj = typeof layerObj === 'string' ? JSON.parse(layerObj) : layerObj;
         const newLayer = new Layer(0, 0);
         const newNeurons = [];
         for (let i = 0; i < layerObj.neurons.length; i++) {

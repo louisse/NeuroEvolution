@@ -1,6 +1,6 @@
 class Pipe {
     constructor(x) {
-        this.h = 115;
+        this.h = 100;
         this.w = 75;
         this.x = x;
         this.y = 0;
@@ -34,11 +34,6 @@ class Pipe {
     }
 
     checkCollision(x1, y1, x2, y2) {
-        if (this.x < x2 && x1 < this.x + this.w) {
-            if (this.y < y2 || y1 < this.y - this.h) {
-                return true;
-            }
-        }
-        return false;
+        return (this.x < x2 && x1 < this.x + this.w) && (this.y < y2 || y1 < this.y - this.h);
     }
 }
