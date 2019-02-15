@@ -25,7 +25,7 @@ class Population {
 
     show() {
         if (showAllButton.value() === 'true') {
-            for (let i = 1; i < this.birds.length; i++) {
+            for (let i = 1; i < this.popSize; i++) {
                 this.birds[i].show();
             }
         }
@@ -36,8 +36,8 @@ class Population {
         if (this.checkAllDead() === true) {
             this.evaluate();
             this.setNextGen();
-            localStorage.setItem('flappy:bestbirdbrain:gen:' + this.generation, JSON.stringify(this.bestBird.brain));
-            localStorage.setItem('flappy:gen', this.generation);
+            localStorage.setItem(bestBirdBrainPrefix + ':gen:' + this.generation, JSON.stringify(this.bestBird.brain));
+            localStorage.setItem(generationPK, this.generation);
             resetPipes();
             if (score > highScore) {
                 highScore = score;
@@ -76,7 +76,7 @@ class Population {
         this.fitnessSum = 0;
         let sumFit = 0;
         let maxFitness = 0;
-        for (let i = 0; i < this.birds.length; i++) {
+        for (let i = 0; i < this.popSize; i++) {
             this.birds[i].calculateFitness();
             sumFit += this.birds[i].fitness;
             if (maxFitness < this.birds[i].fitness) {

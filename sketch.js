@@ -1,5 +1,7 @@
 const G = 0.4;
 const groundHeight = 25;
+const bestBirdBrainPrefix = 'flappy:bestbirdbrain';
+const generationPK = 'flappy:gen';
 
 let population;
 let pipes;
@@ -19,7 +21,7 @@ let generationP;
 // const height = 400;
 
 function preload() {
-    let load = localStorage.getItem('flappy.bestbirdbrain');
+    let load = localStorage.getItem(bestBirdBrainPrefix);
     if (load !== null) {
         loadedBirdBrain = JSON.parse(load);
     } else{
@@ -56,13 +58,13 @@ function resetPipes() {
 }
 
 function resetStorage() {
-    let gen = localStorage.getItem('flappy:gen');
+    let gen = localStorage.getItem(generationPK);
     if (gen !== null) {
         gen = parseInt(gen, 10);
         for (let i = 1; i <= gen; i++) {
-            localStorage.removeItem('flappy:bestbirdbrain:gen:' + i);
+            localStorage.removeItem(bestBirdBrainPrefix + ':gen:' + i);
         }
-        localStorage.setItem('flappy:gen', '1');
+        localStorage.setItem(generationPK, '1');
     }
 }
 
@@ -97,6 +99,6 @@ function showHandle() {
 
 function saveBestBirdHandle() {
     population.evaluate();
-    localStorage.setItem('flappy:bestbirdbrain', JSON.stringify(population.bestBird.brain));
+    localStorage.setItem(bestBirdBrainPrefix, JSON.stringify(population.bestBird.brain));
     saveJSON(population.bestBird.brain, 'bestBirdBrain.json', true);
 }
